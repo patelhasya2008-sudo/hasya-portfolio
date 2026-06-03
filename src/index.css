@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(10, 132, 255, 0.3);
+  color: inherit;
+}
+
+/* Frosted Glass Utilities */
+.glass-container-light,
+.glass-container-dark {
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45) !important;
+}
+
+.glass-card-light,
+.glass-card-dark {
+  background: rgba(0, 0, 0, 0.72) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Obsidian Black theme text & background overrides for elements nested inside light frosted glass to ensure absolute readability */
+.glass-container-light .text-neutral-900,
+.glass-card-light .text-neutral-900,
+.glass-container-light .text-neutral-950,
+.glass-card-light .text-neutral-950 {
+  color: #ffffff !important;
+}
+
+.glass-container-light .text-neutral-850,
+.glass-card-light .text-neutral-850,
+.glass-container-light .text-neutral-800,
+.glass-card-light .text-neutral-800,
+.glass-container-light .text-neutral-700,
+.glass-card-light .text-neutral-700 {
+  color: #e5e5e5 !important;
+}
+
+.glass-container-light .text-neutral-600,
+.glass-card-light .text-neutral-600,
+.glass-container-light .text-neutral-500,
+.glass-card-light .text-neutral-500 {
+  color: #a3a3a3 !important;
+}
+
+.glass-container-light .text-neutral-450,
+.glass-card-light .text-neutral-450,
+.glass-container-light .text-neutral-400,
+.glass-card-light .text-neutral-400 {
+  color: #737373 !important;
+}
+
+.glass-container-light .bg-neutral-100,
+.glass-card-light .bg-neutral-100,
+.glass-container-light .bg-neutral-200/50,
+.glass-card-light .bg-neutral-200/50 {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.glass-container-light .bg-neutral-50,
+.glass-card-light .bg-neutral-50 {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+.glass-container-light .border-neutral-200,
+.glass-card-light .border-neutral-200,
+.glass-container-light .border-neutral-100,
+.glass-card-light .border-neutral-100,
+.glass-container-light .border-neutral-200/40,
+.glass-card-light .border-neutral-200/40,
+.glass-container-light .border-neutral-200/50,
+.glass-card-light .border-neutral-200/50 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Subtle glowing elements */
+.glowing-mesh-blue {
+  background: radial-gradient(circle, rgba(10, 132, 255, 0.15) 0%, rgba(10, 132, 255, 0) 70%);
+}
+
+.glowing-mesh-green {
+  background: radial-gradient(circle, rgba(48, 209, 88, 0.12) 0%, rgba(48, 209, 88, 0) 70%);
+}
+
