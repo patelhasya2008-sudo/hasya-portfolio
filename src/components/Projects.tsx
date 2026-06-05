@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ExternalLink, Github, ArrowRight, X, Sparkles, Clock, User, CheckCircle2 } from 'lucide-react';
 import { PROJECTS } from '../data';
 import { Project } from '../types';
+import ScrollReveal from './ScrollReveal';
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -44,35 +45,37 @@ export default function Projects() {
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col mb-16 space-y-2">
-          <span className="font-mono text-xs uppercase tracking-widest text-[#0A84FF] font-semibold">
-            03 / Works
-          </span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white">
-            Featured Projects
-          </h2>
-          <p className="text-neutral-400 dark:text-neutral-500 text-xs md:text-sm max-w-sm mt-1 font-sans">
-            Crafted for speed, modular UI states, and robust schema constraints.
-          </p>
-          <div className="h-[2px] w-12 bg-neutral-200 dark:bg-neutral-800 rounded mt-4" />
-        </div>
+        <ScrollReveal direction="up" duration={0.8}>
+          <div className="flex flex-col mb-16 space-y-2">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#0A84FF] font-semibold">
+              03 / Works
+            </span>
+            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white">
+              Featured Projects
+            </h2>
+            <p className="text-neutral-400 dark:text-neutral-500 text-xs md:text-sm max-w-sm mt-1 font-sans">
+              Crafted for speed, modular UI states, and robust schema constraints.
+            </p>
+            <div className="h-[2px] w-12 bg-neutral-200 dark:bg-neutral-800 rounded mt-4" />
+          </div>
+        </ScrollReveal>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
           {PROJECTS.map((project, idx) => (
-            <div
-              key={project.id}
-              id={`project-card-${project.id}`}
-              className="group relative cursor-pointer"
-              onMouseMove={(e) => handleMouseMove(e, project.id)}
-              onMouseLeave={() => handleMouseLeave(project.id)}
-              onClick={() => setSelectedProject(project)}
-              style={{
-                transform: tiltStyle[project.id] || 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
-                transition: 'transform 0.1s ease-out',
-                transformStyle: 'preserve-3d',
-              }}
-            >
+            <ScrollReveal key={project.id} direction="up" delay={idx * 0.15} duration={0.9}>
+              <div
+                id={`project-card-${project.id}`}
+                className="group relative cursor-pointer"
+                onMouseMove={(e) => handleMouseMove(e, project.id)}
+                onMouseLeave={() => handleMouseLeave(project.id)}
+                onClick={() => setSelectedProject(project)}
+                style={{
+                  transform: tiltStyle[project.id] || 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
+                  transition: 'transform 0.1s ease-out',
+                  transformStyle: 'preserve-3d',
+                }}
+              >
               {/* Outer Glow Wrapper on Hover */}
               <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-[#0a84ff]/10 to-[#30D158]/5 opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500 pointer-events-none" />
 
@@ -153,24 +156,72 @@ export default function Projects() {
 
                   {/* Horizontal dividers & tag arrays */}
                   <div className="mt-5 space-y-4 pt-4 border-t border-neutral-100 dark:border-neutral-900">
+                    {/* Technology Badges with distinctive premium tint classes */}
                     <div className="flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
-                        <span key={tag} className="font-mono text-[10px] text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-[#1C1C1E] px-2.5 py-1 rounded-md">
-                          {tag}
-                        </span>
-                      ))}
+                      {project.tags.map((tag) => {
+                        let colorClass = 'bg-neutral-100 dark:bg-[#1C1C1E] text-neutral-600 dark:text-neutral-400';
+                        if (tag === 'React' || tag === 'Next.js' || tag === 'Motion Layout') {
+                          colorClass = 'bg-[#0A84FF]/10 text-[#0A84FF] dark:bg-[#0A84FF]/8';
+                        } else if (tag === 'TypeScript' || tag === 'JavaScript') {
+                          colorClass = 'bg-indigo-500/10 text-indigo-500 dark:bg-indigo-500/8';
+                        } else if (tag === 'MySQL / API' || tag === 'Local Databases') {
+                          colorClass = 'bg-[#30D158]/10 text-[#30D158] dark:bg-[#30D158]/8';
+                        } else if (tag === 'Tailwind' || tag === 'Tailwind CSS') {
+                          colorClass = 'bg-cyan-500/10 text-cyan-500 dark:bg-cyan-500/8';
+                        }
+                        
+                        return (
+                          <span 
+                            key={tag} 
+                            className={`font-mono text-[9.5px] font-bold tracking-tight px-3 py-1 rounded-md transition-colors ${colorClass}`}
+                          >
+                            {tag}
+                          </span>
+                        );
+                      })}
+                    </div>
+
+                    {/* Direct Action buttons (Live Demo & GitHub) with premium hover animations */}
+                    <div className="grid grid-cols-2 gap-2.5 pt-1">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          alert(`Launching live simulation sandbox for "${project.title}"`);
+                        }}
+                        className="flex items-center justify-center space-x-1.5 py-3 px-4 rounded-xl bg-[#0A84FF] hover:bg-[#0070E3] text-white text-xs font-bold shadow-md hover:shadow-[#0A84FF]/20 hover:scale-[1.015] active:scale-[0.985] transition-all cursor-pointer group/btn"
+                      >
+                        <ExternalLink size={12} className="group-hover/btn:rotate-12 transition-transform" />
+                        <span>Live Demo</span>
+                      </button>
+
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        className="flex items-center justify-center space-x-1.5 py-3 px-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white/60 dark:bg-[#121214]/60 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-800 dark:text-[#E1E1E6] text-xs font-bold hover:scale-[1.015] active:scale-[0.985] transition-all cursor-pointer group/git"
+                      >
+                        <Github size={12} className="group-hover/git:scale-110 transition-transform" />
+                        <span>GitHub Repo</span>
+                      </a>
                     </div>
 
                     {/* Read Case study trigger text */}
-                    <div className="flex items-center justify-between text-xs font-semibold text-neutral-700 dark:text-neutral-300 pt-2 group-hover:text-[#0A84FF] transition-colors">
-                      <span>View Case Study Document</span>
-                      <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    <div className="flex items-center justify-between text-[11px] font-bold text-neutral-600 dark:text-neutral-400 pt-2.5 group-hover:text-[#0A84FF] transition-all duration-300">
+                      <span className="flex items-center gap-1.5">
+                        <Sparkles size={11} className="text-[#0A84FF]" />
+                        <span>Explore Comprehensive Case Study Case Study</span>
+                      </span>
+                      <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform text-[#0A84FF]" />
                     </div>
                   </div>
                 </div>
 
               </div>
             </div>
+          </ScrollReveal>
           ))}
         </div>
       </div>

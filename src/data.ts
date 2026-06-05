@@ -14,22 +14,14 @@ export const PERSONAL_INFO = {
 };
 
 export const SKILLS: Skill[] = [
-  // Python
   { name: 'Python', category: 'Languages', level: 90, iconName: 'Flame' },
-  // HTML
-  { name: 'HTML5', category: 'Web Technologies', level: 95, iconName: 'FileHtml' },
-  // CSS
-  { name: 'CSS3', category: 'Web Technologies', level: 95, iconName: 'FileCss' },
-  // JavaScript
+  { name: 'HTML', category: 'Web Technologies', level: 95, iconName: 'FileHtml' },
+  { name: 'CSS', category: 'Web Technologies', level: 95, iconName: 'FileCss' },
   { name: 'JavaScript', category: 'Languages', level: 92, iconName: 'Code' },
   { name: 'TypeScript', category: 'Languages', level: 88, iconName: 'Code2' },
-  // MySQL
-  { name: 'MySQL', category: 'Databases & Tools', level: 85, iconName: 'Database' },
-  // Application Development / framework skills
-  { name: 'React', category: 'Web Technologies', level: 90, iconName: 'Atom' },
-  { name: 'Next.js', category: 'Web Technologies', level: 85, iconName: 'Briefcase' },
+  { name: 'Database Management', category: 'Databases & Tools', level: 86, iconName: 'Database' },
+  { name: 'Application Development', category: 'Web Technologies', level: 90, iconName: 'Atom' },
   { name: 'Tailwind CSS', category: 'Web Technologies', level: 95, iconName: 'Palette' },
-  // Generative AI
   { name: 'Generative AI', category: 'Specialized', level: 85, iconName: 'Sparkles' },
   { name: 'Prompt Engineering', category: 'Specialized', level: 90, iconName: 'Terminal' },
   { name: 'Git & GitHub', category: 'Databases & Tools', level: 88, iconName: 'GitBranch' },

@@ -11,13 +11,30 @@ import {
   Terminal, 
   GitBranch,
   Layers,
-  Laptop
+  Laptop,
+  CheckCircle,
+  HelpCircle
 } from 'lucide-react';
 import { SKILLS } from '../data';
 import { Skill } from '../types';
 
+const SKILL_DETAILS: Record<string, string[]> = {
+  'Python': ['Core Scripting', 'Data Structures', 'Algorithmic Efficiency', 'Model Prototyping'],
+  'HTML': ['Semantic Tagging', 'DOM Structure', 'Accessibility Compliance', 'SEO Standards'],
+  'CSS': ['Modern Flex/Grid', 'Utility Composition', 'Keyframe Animations', 'Responsive Fluid Scales'],
+  'JavaScript': ['ES6+ Async Event Loop', 'Module Trees', 'DOM Orchestration', 'Storage Control'],
+  'TypeScript': ['Strict Compile Interfaces', 'Type Assertions', 'Generic Structures', 'Safe APIs'],
+  'Database Management': ['Relational Modeling', 'Query Indexing', 'Schema Normalization', 'ACID Transactions'],
+  'Application Development': ['Component Lifecycle', 'Vite Bundler Pipelines', 'Context Orchestration', 'Responsive UI States'],
+  'Tailwind CSS': ['Atomic Classes Pipeline', 'Responsive Media Prefixes', 'Extended Custom Themes', 'Arbitrary Styling'],
+  'Generative AI': ['Gemini Model APIs', 'LLM Context Windows', 'Structured JSON Outputs', 'Zero-shot Prompting'],
+  'Prompt Engineering': ['Instruction Injection', 'Few-shot Structuring', 'Guardrail Alignment', 'Token Optimization'],
+  'Git & GitHub': ['Conflict Resolution', 'Repository Security', 'Actions Hooks', 'Version Reverts']
+};
+
 export default function Skills() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [activeSkillId, setActiveSkillId] = useState<string | null>(null);
 
   // Categories list
   const categories = ['All', 'Languages', 'Web Technologies', 'Databases & Tools', 'Specialized'];
@@ -102,54 +119,100 @@ export default function Skills() {
           id="skills-grid"
         >
           <AnimatePresence mode="popLayout">
-            {filteredSkills.map((skill) => (
-              <motion.div
-                layout
-                id={`skill-card-${skill.name.toLowerCase().replace(/\s+/g, '-')}`}
-                key={skill.name}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="group relative p-6 rounded-2xl glass-card-light dark:glass-card-dark overflow-hidden transition-all duration-300"
-              >
-                {/* Visual gradient light effects on hover */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#0A84FF]/2 to-transparent group-hover:from-[#0A84FF]/5 rounded-full blur-xl transition-all duration-300" />
-                
-                {/* Details layout */}
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2.5 bg-neutral-100 dark:bg-[#1C1C1E] rounded-xl group-hover:scale-105 transition-transform duration-300">
-                      {getSkillIcon(skill.iconName)}
+            {filteredSkills.map((skill) => {
+              const isCardActive = activeSkillId === skill.name;
+              return (
+                <motion.div
+                  layout
+                  id={`skill-card-${skill.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  key={skill.name}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  onClick={() => setActiveSkillId(isCardActive ? null : skill.name)}
+                  className={`group relative p-6 rounded-2xl glass-card-light dark:glass-card-dark overflow-hidden transition-all duration-300 cursor-pointer border ${
+                    isCardActive 
+                      ? 'border-[#0A84FF] dark:border-[#0A84FF] ring-2 ring-[#0A84FF]/10 dark:ring-[#0A84FF]/15' 
+                      : 'border-transparent'
+                  }`}
+                >
+                  {/* Visual gradient light effects on hover */}
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#0A84FF]/2 to-transparent group-hover:from-[#0A84FF]/5 rounded-full blur-xl transition-all duration-300 pointer-events-none" />
+                  
+                  {/* Details layout */}
+                  <div className="flex justify-between items-center mb-4 relative z-10">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2.5 bg-neutral-100 dark:bg-[#1C1C1E] rounded-xl group-hover:scale-105 transition-transform duration-300">
+                        {getSkillIcon(skill.iconName)}
+                      </div>
+                      <div>
+                        <h4 className="font-sans font-semibold text-sm text-neutral-900 dark:text-white group-hover:text-[#0A84FF] transition-colors duration-200">
+                          {skill.name}
+                        </h4>
+                        <p className="font-mono text-[9px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+                          {skill.category}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-sans font-semibold text-sm text-neutral-900 dark:text-white group-hover:text-[#0A84FF] transition-colors duration-200">
-                        {skill.name}
-                      </h4>
-                      <p className="font-mono text-[9px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
-                        {skill.category}
-                      </p>
+                    <div className="flex items-center space-x-1.5">
+                      <span className="font-mono text-xs font-semibold text-neutral-600 dark:text-neutral-300">
+                        {skill.level}%
+                      </span>
+                      <HelpCircle size={12} className="text-neutral-400 group-hover:text-[#0A84FF] transition-colors" />
                     </div>
                   </div>
-                  <span className="font-mono text-xs font-semibold text-neutral-600 dark:text-neutral-300">
-                    {skill.level}%
-                  </span>
-                </div>
 
-                {/* Animated Level Bar */}
-                <div className="w-full mt-4">
-                  <div className="w-full h-[3px] bg-neutral-100 dark:bg-[#1C1C1E] rounded-full overflow-hidden">
-                    <motion.div
-                      className="h-full bg-gradient-to-r from-[#0a84ff] to-[#30D158] rounded-full"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.level}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, ease: 'easeOut' }}
-                    />
+                  {/* Animated Level Bar + Progress indicator hover effects */}
+                  <div className="w-full mt-4">
+                    <div className="w-full h-[4px] group-hover:h-[6px] bg-neutral-100 dark:bg-neutral-800/80 rounded-full overflow-hidden transition-all duration-300 relative shadow-inner">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-[#0A84FF] via-purple-500 to-[#30D158] group-hover:brightness-110 rounded-full relative"
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${skill.level}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, ease: 'easeOut' }}
+                      >
+                        {/* Interactive glowing tip on card hover */}
+                        <span className="absolute right-0 top-0 bottom-0 w-2.5 bg-white dark:bg-neutral-100 rounded-full shadow-[0_0_12px_rgba(48,209,88,1)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </motion.div>
+                    </div>
+                    <div className="flex justify-between text-[8px] font-mono mt-1.5 px-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-[#0A84FF] font-semibold">Click to inspect</span>
+                      <span className="text-[#30D158] font-bold">Progress Verified</span>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+
+                  {/* Sub-Concept list expanding on click (interactive skill card!) */}
+                  <AnimatePresence>
+                    {isCardActive && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className="overflow-hidden mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800/80"
+                      >
+                        <p className="text-[10px] uppercase font-mono text-neutral-400 dark:text-neutral-500 font-bold mb-2">Core Concepts Developed:</p>
+                        <div className="grid grid-cols-2 gap-1.5">
+                          {(SKILL_DETAILS[skill.name] || ['Standard Principles', 'Testing Procedures']).map((concept) => (
+                            <div 
+                              key={concept} 
+                              className="flex items-center space-x-1.5 py-1 px-1.5 rounded-lg bg-neutral-50 dark:bg-neutral-900 border border-neutral-200/40 dark:border-neutral-800/40"
+                            >
+                              <CheckCircle size={10} className="text-[#30D158] flex-shrink-0" />
+                              <span className="font-sans text-[10px] text-neutral-600 dark:text-neutral-300 leading-tight truncate">
+                                {concept}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </motion.div>
       </div>
